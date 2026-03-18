@@ -1,0 +1,1 @@
+loadstring(game:HttpGet("https://raw.githubusercontent.com/KingV5/yoyo/main/NewMainScript.lua"))()
