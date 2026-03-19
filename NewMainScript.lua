@@ -11,8 +11,8 @@ end
 local function downloadFile(path, func)
 	if not isfile(path) then
 		local suc, res = pcall(function()
-			return game:HttpGet('https://raw.githubusercontent.com/poopparty/poopparty/'..readfile('newvape/profiles/commit.txt')..'/'..select(1, path:gsub('newvape/', '')), true)
-		end)
+		return game:HttpGet('https://raw.githubusercontent.com/KingV5/KingifyV4/'..readfile('newvape/profiles/commit.txt')..'/'..select(1, path:gsub('newvape/', '')), true)
+end)
 		if not suc or res == '404: Not Found' then
 			error(res)
 		end
@@ -47,8 +47,8 @@ local function downloadPremadeProfiles(commit)
     end
 
     local success, response = pcall(function()
-        return game:HttpGet('https://api.github.com/repos/poopparty/poopparty/contents/profiles/premade?ref=' .. commit)
-    end)
+     return game:HttpGet('https://api.github.com/repos/KingV5/KingifyV4/contents/profiles/premade?ref=' .. commit)
+end)
 
     if success and response then
         local ok, files = pcall(function()
@@ -60,7 +60,7 @@ local function downloadPremadeProfiles(commit)
                 if file.name and file.name:find('.txt') and file.name ~= 'commit.txt' then
                     local filePath = 'newvape/profiles/premade/' .. file.name
                     if not isfile(filePath) then
-                        local dl = file.download_url or ('https://raw.githubusercontent.com/poopparty/poopparty/' .. commit .. '/profiles/premade/' .. file.name)
+                        local dl = file.download_url or ('https://raw.githubusercontent.com/KingV5/KingifyV4/' .. commit .. '/profiles/premade/' .. file.name)
                         local ds, dc = pcall(function()
                             return game:HttpGet(dl, true)
                         end)
@@ -76,8 +76,8 @@ end
 
 if not shared.VapeDeveloper then
     local _, subbed = pcall(function()
-        return game:HttpGet('https://github.com/poopparty/poopparty')
-    end)
+        return game:HttpGet('https://raw.githubusercontent.com/KingV5/KingifyV4/main/loader.lua', true)
+end)
     local commit = subbed:find('currentOid')
     commit = commit and subbed:sub(commit + 13, commit + 52) or nil
     commit = commit and #commit == 40 and commit or 'main'
