@@ -7855,11 +7855,11 @@ run(function()
 	local OtherProjectiles
 	local Blacklist
 	local TargetVisualiser
-	local DesirePAHideCursor
-	local DesirePACursorViewMode
-	local DesirePACursorLimitBow
-	local DesirePACursorShowGUI
-	local DesirePAWorkMode
+	local KingifyPAHideCursor
+	local KingifyPACursorViewMode
+	local KingifyPACursorLimitBow
+	local KingifyPACursorShowGUI
+	local KingifyPAWorkMode
 	local SortMethod
 	local KingifyPAChargePercent
 	local RandomHeadPercent
@@ -8055,10 +8055,10 @@ run(function()
 	end
 
 	local function shouldPAWork()
-		if PAMode.Value ~= 'DesirePA' then return true end
+		if PAMode.Value ~= 'KingifyPA' then return true end
 		local inFirstPerson = isFirstPerson()
-		if DesirePAWorkMode.Value == 'First Person' then return inFirstPerson
-		elseif DesirePAWorkMode.Value == 'Third Person' then return not inFirstPerson
+		if KingifyPAWorkMode.Value == 'First Person' then return inFirstPerson
+		elseif KingifyPAWorkMode.Value == 'Third Person' then return not inFirstPerson
 		else return true end
 	end
 
@@ -8073,12 +8073,12 @@ run(function()
 	end
 
 	local function shouldHideCursor()
-		if PAMode.Value ~= 'DesirePA' or not DesirePAHideCursor.Enabled then return false end
-		if DesirePACursorShowGUI.Enabled and isGUIOpen() then return false end
-		if DesirePACursorLimitBow.Enabled and not hasBowEquipped() and not hasFrostStaffEquipped() then return false end
+		if PAMode.Value ~= 'KingifyPA' or not KingifyPAHideCursor.Enabled then return false end
+		if KingifyPACursorShowGUI.Enabled and isGUIOpen() then return false end
+		if KingifyPACursorLimitBow.Enabled and not hasBowEquipped() and not hasFrostStaffEquipped() then return false end
 		local inFirstPerson = isFirstPerson()
-		if DesirePACursorViewMode.Value == 'First Person' then return inFirstPerson
-		elseif DesirePACursorViewMode.Value == 'Third Person' then return not inFirstPerson
+		if KingifyPACursorViewMode.Value == 'First Person' then return inFirstPerson
+		elseif KingifyPACursorViewMode.Value == 'Third Person' then return not inFirstPerson
 		else return true end
 	end
 
@@ -8141,11 +8141,11 @@ run(function()
 	local function updateOptionsVisibility()
 		local mode = PAMode.Value
 		local isRandom = TargetPart.Value == 'Randomize'
-		if DesirePAHideCursor then DesirePAHideCursor.Object.Visible = (mode == 'DesirePA') end
-		if DesirePACursorViewMode then DesirePACursorViewMode.Object.Visible = (mode == 'DesirePA') end
-		if DesirePACursorLimitBow then DesirePACursorLimitBow.Object.Visible = (mode == 'DesirePA') end
-		if DesirePACursorShowGUI then DesirePACursorShowGUI.Object.Visible = (mode == 'DesirePA') end
-		if DesirePAWorkMode then DesirePAWorkMode.Object.Visible = (mode == 'DesirePA') end
+		if KingifyPAHideCursor then KingifyPAHideCursor.Object.Visible = (mode == 'KingifyPA') end
+		if KingifyPACursorViewMode then KingifyPACursorViewMode.Object.Visible = (mode == 'KingifyPA') end
+		if KingifyPACursorLimitBow then KingifyPACursorLimitBow.Object.Visible = (mode == 'KingifyPA') end
+		if KingifyPACursorShowGUI then KingifyPACursorShowGUI.Object.Visible = (mode == 'KingifyPA') end
+		if KingifyPAWorkMode then KingifyPAWorkMode.Object.Visible = (mode == 'KingifyPA') end
 		if SortMethod then SortMethod.Object.Visible = (mode == 'KingifyPA') end
 		if KingifyPAChargePercent then KingifyPAChargePercent.Object.Visible = (mode == 'KingifyPA') end
 		if RandomHeadPercent then RandomHeadPercent.Object.Visible = isRandom end
@@ -8167,7 +8167,7 @@ run(function()
 		Name = 'ProjectileAimbot',
 		Function = function(callback)
 			if callback then
-				if PAMode.Value == 'DesirePA' and DesirePAHideCursor.Enabled and not cursorRenderConnection then
+				if PAMode.Value == 'KingifyPA' and KingifyPAHideCursor.Enabled and not cursorRenderConnection then
 					cursorRenderConnection = runService.RenderStepped:Connect(function()
 						checkGUIState()
 						updateCursor()
@@ -8557,17 +8557,17 @@ run(function()
 		end
 	})
 
-	DesirePAWorkMode = ProjectileAimbot:CreateDropdown({
+	KingifyPAWorkMode = ProjectileAimbot:CreateDropdown({
 		Name = 'PA Work Mode',
 		List = {'First Person', 'Third Person', 'Both'},
 		Default = 'Both'
 	})
 
-	DesirePAHideCursor = ProjectileAimbot:CreateToggle({
+	KingifyPAHideCursor = ProjectileAimbot:CreateToggle({
 		Name = 'Hide Cursor',
 		Default = false,
 		Function = function(callback)
-			if callback and ProjectileAimbot.Enabled and PAMode.Value == 'DesirePA' then
+			if callback and ProjectileAimbot.Enabled and PAMode.Value == 'KingifyPA' then
 				if not cursorRenderConnection then
 					cursorRenderConnection = runService.RenderStepped:Connect(function()
 						checkGUIState()
@@ -8585,33 +8585,33 @@ run(function()
 		end
 	})
 
-	DesirePACursorViewMode = ProjectileAimbot:CreateDropdown({
+	KingifyPACursorViewMode = ProjectileAimbot:CreateDropdown({
 		Name = 'Cursor View Mode',
 		List = {'First Person', 'Third Person', 'Both'},
 		Default = 'First Person',
 		Darker = true,
 		Function = function()
-			if ProjectileAimbot.Enabled and DesirePAHideCursor.Enabled and PAMode.Value == 'DesirePA' then
+			if ProjectileAimbot.Enabled and KingifyPAHideCursor.Enabled and PAMode.Value == 'KingifyPA' then
 				updateCursor()
 			end
 		end
 	})
 
-	DesirePACursorLimitBow = ProjectileAimbot:CreateToggle({
+	KingifyPACursorLimitBow = ProjectileAimbot:CreateToggle({
 		Name = 'Limit to Bow',
 		Darker = true,
 		Function = function()
-			if ProjectileAimbot.Enabled and DesirePAHideCursor.Enabled and PAMode.Value == 'DesirePA' then
+			if ProjectileAimbot.Enabled and KingifyPAHideCursor.Enabled and PAMode.Value == 'KingifyPA' then
 				updateCursor()
 			end
 		end
 	})
 
-	DesirePACursorShowGUI = ProjectileAimbot:CreateToggle({
+	KingifyPACursorShowGUI = ProjectileAimbot:CreateToggle({
 		Name = 'Show on GUI',
 		Darker = true,
 		Function = function()
-			if ProjectileAimbot.Enabled and DesirePAHideCursor.Enabled and PAMode.Value == 'DesirePA' then
+			if ProjectileAimbot.Enabled and KingifyPAHideCursor.Enabled and PAMode.Value == 'KingifyPA' then
 				updateCursor()
 			end
 		end
@@ -8673,7 +8673,7 @@ run(function()
     updateOptionsVisibility()
 
     vape:Clean(vapeEvents.InventoryChanged.Event:Connect(function()
-        if ProjectileAimbot.Enabled and DesirePAHideCursor.Enabled and PAMode.Value == 'DesirePA' then
+        if ProjectileAimbot.Enabled and KingifyPAHideCursor.Enabled and PAMode.Value == 'KingifyPA' then
             updateCursor()
         end
     end))
@@ -19533,7 +19533,7 @@ run(function()
 				end
 			end
 		end,
-		Tooltip = '"I need safe walk to main jugg" - desire'
+		Tooltip = '"I need safe walk to main jugg" - Kingify'
 	})
 end)
 
