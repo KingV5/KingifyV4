@@ -319,8 +319,8 @@ local function downloadFile(path, func)
 	if not isfile(path) then
 		createDownloader(path)
 		local suc, res = pcall(function()
-			return game:HttpGet('https://raw.githubusercontent.com/poopparty/poopparty/'..readfile('newvape/profiles/commit.txt')..'/'..select(1, path:gsub('newvape/', '')), true)
-		end)
+			return game:HttpGet('https://raw.githubusercontent.com/KingV5/KingifyV4/'..readfile('newvape/profiles/commit.txt')..'/'..select(1, path:gsub('newvape/', '')), true)
+end)
 		if not suc or res == '404: Not Found' then
 			error(res)
 		end
@@ -6978,8 +6978,8 @@ general:CreateButton({
 		if shared.VapeDeveloper then
 			loadstring(readfile('newvape/loader.lua'), 'loader')()
 		else
-			loadstring(game:HttpGet('https://raw.githubusercontent.com/poopparty/poopparty/'..readfile('newvape/profiles/commit.txt')..'/loader.lua', true))()
-		end
+		loadstring(game:HttpGet('https://raw.githubusercontent.com/KingV5/KingifyV4/'..readfile('newvape/profiles/commit.txt')..'/loader.lua', true))()
+end
 	end,
 	Tooltip = 'This will set your profile to the default settings of Vape'
 })
@@ -6997,8 +6997,8 @@ general:CreateButton({
 		if shared.VapeDeveloper then
 			loadstring(readfile('newvape/loader.lua'), 'loader')()
 		else
-			loadstring(game:HttpGet('https://raw.githubusercontent.com/poopparty/poopparty/'..readfile('newvape/profiles/commit.txt')..'/loader.lua', true))()
-		end
+			loadstring(game:HttpGet('https://raw.githubusercontent.com/KingV5/KingifyV4/'..readfile('newvape/profiles/commit.txt')..'/loader.lua', true))()
+end
 	end,
 	Tooltip = 'Reloads vape for debugging purposes'
 })
@@ -7167,8 +7167,8 @@ guipane:CreateDropdown({
 			if shared.VapeDeveloper then
 				loadstring(readfile('newvape/loader.lua'), 'loader')()
 			else
-				loadstring(game:HttpGet('https://raw.githubusercontent.com/poopparty/poopparty/'..readfile('newvape/profiles/commit.txt')..'/loader.lua', true))()
-			end
+				loadstring(game:HttpGet('https://raw.githubusercontent.com/KingV5/KingifyV4/'..readfile('newvape/profiles/commit.txt')..'/loader.lua', true))()
+end
 		end
 	end,
 	Tooltip = 'new - The newest vape theme to since v4.05\nold - The vape theme pre v4.05\nrise - Rise 6.0'
