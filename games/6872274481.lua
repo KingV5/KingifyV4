@@ -2,7 +2,7 @@
 local run = function(func)
     local ok, err = pcall(func)
     if not ok then
-        warn('[Kingify] module failed to load: ' .. tostring(err))
+        warn('[KingifyV4] module failed to load: ' .. tostring(err))
     end
 end
 local vapeEvents = setmetatable({}, {
@@ -2268,7 +2268,7 @@ run(function()
 	local hasReacted = false
 	local currentTarget = nil
 	
-	local Kingifyv4bad = {
+	local KingifyV4bad = {
 		predictStrafingMovement = function(targetPlayer, targetPart, projSpeed, gravity, origin)
 			if not targetPlayer or not targetPlayer.Character or not targetPart then 
 				return targetPart and targetPart.Position or Vector3.zero
@@ -2398,7 +2398,7 @@ run(function()
 		local targetBodyPart = getTargetPart(ent)
 		if not targetBodyPart then return nil end
 		
-		if PAMode.Value == 'Kingify' then
+		if PAMode.Value == 'KingifyV4' then
 			local projSpeed = 100
 			local gravity = 196.2
 			
@@ -2426,7 +2426,7 @@ run(function()
 				end
 			end
 			
-			local predictedPos = Kingifyv4bad.predictStrafingMovement(
+			local predictedPos = KingifyV4v4bad.predictStrafingMovement(
 				ent.Player,
 				targetBodyPart,
 				projSpeed,
@@ -2675,9 +2675,9 @@ run(function()
 	
 	PAMode = ProjectileAimAssist:CreateDropdown({
 		Name = 'Prediction Mode',
-		List = {'Vape', 'Kingify'},
-		Default = 'Kingify',
-		Tooltip = 'Vape = Built-in | Kingify = Custom'
+		List = {'Vape', 'KingifyV4'},
+		Default = 'KingifyV4',
+		Tooltip = 'Vape = Built-in | KingifyV4 = Custom'
 	})
 	
 	AimSpeed = ProjectileAimAssist:CreateSlider({
@@ -3070,7 +3070,7 @@ run(function()
             end)
         end
 
-        local function AutoClickKingify()
+        local function AutoClickKingifyV4()
             if Thread then task.cancel(Thread) end
             Thread = task_spawn(function()
                 local toolCheckCounter = 0
@@ -3117,7 +3117,7 @@ run(function()
             if ACMode.Value == 'Vape' then
                 AutoClickVape()
             else
-                AutoClickKingify()
+                AutoClickKingifyV4()
             end
         end
 
@@ -3157,23 +3157,23 @@ run(function()
         end
 
 		local function updateModeVisibility()
-			local isKingify = ACMode.Value == 'Kingify'
-			if SwingSwordToggle and SwingSwordToggle.Object then SwingSwordToggle.Object.Visible = isKingify end
-			if SwordCPS and SwordCPS.Object then SwordCPS.Object.Visible = isKingify and (SwingSwordToggle and SwingSwordToggle.Enabled) end
-			if ShootProjectilesToggle and ShootProjectilesToggle.Object then ShootProjectilesToggle.Object.Visible = isKingify end
-			if ProjectileCPS and ProjectileCPS.Object then ProjectileCPS.Object.Visible = isKingify and (ShootProjectilesToggle and ShootProjectilesToggle.Enabled) end
-			if KeybindToggle and KeybindToggle.Object then KeybindToggle.Object.Visible = isKingify end
-			if KeybindMode and KeybindMode.Object then KeybindMode.Object.Visible = isKingify and KeybindEnabled end
-			if KeybindList and KeybindList.Object then KeybindList.Object.Visible = isKingify and KeybindEnabled and not UseMouseBind end
-			if MouseBindToggle and MouseBindToggle.Object then MouseBindToggle.Object.Visible = isKingify and KeybindEnabled end
-			if MouseBindList and MouseBindList.Object then MouseBindList.Object.Visible = isKingify and KeybindEnabled and UseMouseBind end
+			local isKingifyV4 = ACMode.Value == 'KingifyV4'
+			if SwingSwordToggle and SwingSwordToggle.Object then SwingSwordToggle.Object.Visible = isKingifyV4 end
+			if SwordCPS and SwordCPS.Object then SwordCPS.Object.Visible = isKingifyV4 and (SwingSwordToggle and SwingSwordToggle.Enabled) end
+			if ShootProjectilesToggle and ShootProjectilesToggle.Object then ShootProjectilesToggle.Object.Visible = isKingifyV4 end
+			if ProjectileCPS and ProjectileCPS.Object then ProjectileCPS.Object.Visible = isKingifyV4 and (ShootProjectilesToggle and ShootProjectilesToggle.Enabled) end
+			if KeybindToggle and KeybindToggle.Object then KeybindToggle.Object.Visible = isKingifyV4 end
+			if KeybindMode and KeybindMode.Object then KeybindMode.Object.Visible = isKingifyV4 and KeybindEnabled end
+			if KeybindList and KeybindList.Object then KeybindList.Object.Visible = isKingifyV4 and KeybindEnabled and not UseMouseBind end
+			if MouseBindToggle and MouseBindToggle.Object then MouseBindToggle.Object.Visible = isKingifyV4 and KeybindEnabled end
+			if MouseBindList and MouseBindList.Object then MouseBindList.Object.Visible = isKingifyV4 and KeybindEnabled and UseMouseBind end
 		end
 
         AutoClicker = vape.Categories.Combat:CreateModule({
             Name = 'AutoClicker',
             Function = function(callback)
                 if callback then
-                    if KeybindEnabled and ACMode.Value == 'Kingify' then
+                    if KeybindEnabled and ACMode.Value == 'KingifyV4' then
                         AutoClicker:Clean(inputService.InputBegan:Connect(function(input)
                             if UseMouseBind then
                                 if input.UserInputType == CurrentMouseBind then
@@ -3237,7 +3237,7 @@ run(function()
 
         ACMode = AutoClicker:CreateDropdown({
             Name = 'AC Mode',
-            List = {'Vape', 'Kingify'},
+            List = {'Vape', 'KingifyV4'},
             Default = 'Vape',
             Function = function(val)
                 StopAutoClick()
@@ -7855,13 +7855,13 @@ run(function()
 	local OtherProjectiles
 	local Blacklist
 	local TargetVisualiser
-	local KingifyPAHideCursor
-	local KingifyPACursorViewMode
-	local KingifyPACursorLimitBow
-	local KingifyPACursorShowGUI
-	local KingifyPAWorkMode
+	local KingifyV4PAHideCursor
+	local KingifyV4PACursorViewMode
+	local KingifyV4PACursorLimitBow
+	local KingifyV4PACursorShowGUI
+	local KingifyV4PAWorkMode
 	local SortMethod
-	local KingifyPAChargePercent
+	local KingifyV4PAChargePercent
 	local RandomHeadPercent
 	local RandomTorsoPercent
 	local CustomPrediction          
@@ -7869,7 +7869,7 @@ run(function()
 	local VerticalMultiplier       
 	local rayCheck = cloneRaycast()
 	local old
-	if not getgenv()._Kingifyv4_original_calcLaunch then
+	if not getgenv()._KingifyV4_original_calcLaunch then
 		-- will be set when we first hook it (note to self)
 	end
 	local math_sqrt = math.sqrt
@@ -7885,7 +7885,7 @@ run(function()
 	local lockedRandomPart = nil
 	local wasHovering = false
 
-	local Kingifyv4bad = {
+	local KingifyV4bad = {
 		predictStrafingMovement = function(targetPlayer, targetPart, projSpeed, gravity, origin)
 			if not targetPlayer or not targetPlayer.Character or not targetPart then
 				return targetPart and targetPart.Position or Vector3.zero
@@ -7992,7 +7992,7 @@ run(function()
 		return closestPot
 	end
 
-	local function getKingifyPATarget(originPos)
+	local function getKingifyV4PATarget(originPos)
 		local validTargets = {}
 		local rangeSquared = Range.Value * Range.Value
 		local fovThreshold = math_cos(math_rad(FOV.Value) / 2)
@@ -8055,10 +8055,10 @@ run(function()
 	end
 
 	local function shouldPAWork()
-		if PAMode.Value ~= 'KingifyPA' then return true end
+		if PAMode.Value ~= 'KingifyV4PA' then return true end
 		local inFirstPerson = isFirstPerson()
-		if KingifyPAWorkMode.Value == 'First Person' then return inFirstPerson
-		elseif KingifyPAWorkMode.Value == 'Third Person' then return not inFirstPerson
+		if KingifyV4PAWorkMode.Value == 'First Person' then return inFirstPerson
+		elseif KingifyV4PAWorkMode.Value == 'Third Person' then return not inFirstPerson
 		else return true end
 	end
 
@@ -8073,12 +8073,12 @@ run(function()
 	end
 
 	local function shouldHideCursor()
-		if PAMode.Value ~= 'KingifyPA' or not KingifyPAHideCursor.Enabled then return false end
-		if KingifyPACursorShowGUI.Enabled and isGUIOpen() then return false end
-		if KingifyPACursorLimitBow.Enabled and not hasBowEquipped() and not hasFrostStaffEquipped() then return false end
+		if PAMode.Value ~= 'KingifyV4PA' or not KingifyV4PAHideCursor.Enabled then return false end
+		if KingifyV4PACursorShowGUI.Enabled and isGUIOpen() then return false end
+		if KingifyV4PACursorLimitBow.Enabled and not hasBowEquipped() and not hasFrostStaffEquipped() then return false end
 		local inFirstPerson = isFirstPerson()
-		if KingifyPACursorViewMode.Value == 'First Person' then return inFirstPerson
-		elseif KingifyPACursorViewMode.Value == 'Third Person' then return not inFirstPerson
+		if KingifyV4PACursorViewMode.Value == 'First Person' then return inFirstPerson
+		elseif KingifyV4PACursorViewMode.Value == 'Third Person' then return not inFirstPerson
 		else return true end
 	end
 
@@ -8141,13 +8141,13 @@ run(function()
 	local function updateOptionsVisibility()
 		local mode = PAMode.Value
 		local isRandom = TargetPart.Value == 'Randomize'
-		if KingifyPAHideCursor then KingifyPAHideCursor.Object.Visible = (mode == 'KingifyPA') end
-		if KingifyPACursorViewMode then KingifyPACursorViewMode.Object.Visible = (mode == 'KingifyPA') end
-		if KingifyPACursorLimitBow then KingifyPACursorLimitBow.Object.Visible = (mode == 'KingifyPA') end
-		if KingifyPACursorShowGUI then KingifyPACursorShowGUI.Object.Visible = (mode == 'KingifyPA') end
-		if KingifyPAWorkMode then KingifyPAWorkMode.Object.Visible = (mode == 'KingifyPA') end
-		if SortMethod then SortMethod.Object.Visible = (mode == 'KingifyPA') end
-		if KingifyPAChargePercent then KingifyPAChargePercent.Object.Visible = (mode == 'KingifyPA') end
+		if KingifyV4PAHideCursor then KingifyV4PAHideCursor.Object.Visible = (mode == 'KingifyV4PA') end
+		if KingifyV4PACursorViewMode then KingifyV4PACursorViewMode.Object.Visible = (mode == 'KingifyV4PA') end
+		if KingifyV4PACursorLimitBow then KingifyV4PACursorLimitBow.Object.Visible = (mode == 'KingifyV4PA') end
+		if KingifyV4PACursorShowGUI then KingifyV4PACursorShowGUI.Object.Visible = (mode == 'KingifyV4PA') end
+		if KingifyV4PAWorkMode then KingifyV4PAWorkMode.Object.Visible = (mode == 'KingifyV4PA') end
+		if SortMethod then SortMethod.Object.Visible = (mode == 'KingifyV4PA') end
+		if KingifyV4PAChargePercent then KingifyV4PAChargePercent.Object.Visible = (mode == 'KingifyV4PA') end
 		if RandomHeadPercent then RandomHeadPercent.Object.Visible = isRandom end
 		if RandomTorsoPercent then RandomTorsoPercent.Object.Visible = isRandom end
 		if CustomPrediction then
@@ -8167,7 +8167,7 @@ run(function()
 		Name = 'ProjectileAimbot',
 		Function = function(callback)
 			if callback then
-				if PAMode.Value == 'KingifyPA' and KingifyPAHideCursor.Enabled and not cursorRenderConnection then
+				if PAMode.Value == 'KingifyV4PA' and KingifyV4PAHideCursor.Enabled and not cursorRenderConnection then
 					cursorRenderConnection = runService.RenderStepped:Connect(function()
 						checkGUIState()
 						updateCursor()
@@ -8176,10 +8176,10 @@ run(function()
 
 				handlePlayerSelection()
 
-				if not getgenv()._Kingifyv4_original_calcLaunch then
-					getgenv()._Kingifyv4_original_calcLaunch = bedwars.ProjectileController.calculateImportantLaunchValues
+				if not getgenv()._KingifyV4v4_original_calcLaunch then
+					getgenv()._KingifyV4v4_original_calcLaunch = bedwars.ProjectileController.calculateImportantLaunchValues
 				end
-				old = getgenv()._Kingifyv4_original_calcLaunch
+				old = getgenv()._KingifyV4v4_original_calcLaunch
 				bedwars.ProjectileController.calculateImportantLaunchValues = function(...)
 					local self, projmeta, worldmeta, origin, shootpos = ...
 					local originPos = entitylib.isAlive and (shootpos or entitylib.character.RootPart.Position) or Vector3.zero
@@ -8197,7 +8197,7 @@ run(function()
 					if selectedTarget and selectedTarget.Character and selectedTarget.Character.PrimaryPart then
 						local dist = (selectedTarget.Character.PrimaryPart.Position - originPos).Magnitude
 						if dist <= Range.Value then
-							if PAMode.Value == 'KingifyPA' and KingifyPATargetPriority.Value == 'Forest' and not HasSeed(selectedTarget.Character) then
+							if PAMode.Value == 'KingifyV4PA' and KingifyV4PATargetPriority.Value == 'Forest' and not HasSeed(selectedTarget.Character) then
 								selectedTarget = nil
 								updateOutline(nil)
 							else
@@ -8210,8 +8210,8 @@ run(function()
 					end
 
 					if not plr then
-						if PAMode.Value == 'KingifyPA' and SortMethod.Value ~= 'Distance' then
-							plr = getKingifyPATarget(originPos)
+						if PAMode.Value == 'KingifyV4PA' and SortMethod.Value ~= 'Distance' then
+							plr = getKingifyV4PATarget(originPos)
 						else
 							local entityPart = (TargetPart.Value == 'Closest' or TargetPart.Value == 'Randomize') and 'RootPart' or TargetPart.Value
 							plr = entitylib.EntityMouse({
@@ -8387,15 +8387,15 @@ run(function()
 								}
 							end
 
-						elseif PAMode.Value == 'KingifyPA' then
+						elseif PAMode.Value == 'KingifyV4PA' then
 							local distance = (targetBodyPart.Position - offsetpos).Magnitude
 							local rawLook = CFrame.new(offsetpos, targetBodyPart.Position)
 							local tempPart = {
 								Position = targetBodyPart.Position,
 								Velocity = targetVelocity
 							}
-							local predictedPosition = Kingifyv4bad.predictStrafingMovement(plr.Player, tempPart, projSpeed, gravity, offsetpos)
-							local newlook = Kingifyv4bad.smoothAim(rawLook, predictedPosition, distance)
+							local predictedPosition = KingifyV4v4bad.predictStrafingMovement(plr.Player, tempPart, projSpeed, gravity, offsetpos)
+							local newlook = KingifyV4v4bad.smoothAim(rawLook, predictedPosition, distance)
 							if projmeta.projectile ~= 'owl_projectile' then
 								newlook = newlook * CFrame.new(bedwars.BowConstantsTable.RelX or 0, bedwars.BowConstantsTable.RelY or 0, bedwars.BowConstantsTable.RelZ or 0)
 							end
@@ -8406,9 +8406,9 @@ run(function()
 							)
 							if calc then
 								if targetinfo and targetinfo.Targets then targetinfo.Targets[plr] = tick() + 1 end
-								local customDrawDuration = 0.58 * (KingifyPAChargePercent.Value / 100)
+								local customDrawDuration = 0.58 * (KingifyV4PAChargePercent.Value / 100)
 								if usingFrostStaff then
-									customDrawDuration = getFrostStaffCooldown(store.hand.tool.Name) * (KingifyPAChargePercent.Value / 100)
+									customDrawDuration = getFrostStaffCooldown(store.hand.tool.Name) * (KingifyV4PAChargePercent.Value / 100)
 								end
 								local finalDirection = (calc - newlook.p).Unit
 								local angleFromHorizontal = math.acos(math.clamp(finalDirection:Dot(Vector3.new(0, 1, 0)), -1, 1))
@@ -8455,7 +8455,7 @@ run(function()
 					return old(...)
 				end
 			else
-				bedwars.ProjectileController.calculateImportantLaunchValues = getgenv()._Kingifyv4_original_calcLaunch or old
+				bedwars.ProjectileController.calculateImportantLaunchValues = getgenv()._KingifyV4v4_original_calcLaunch or old
 				if targetOutline then
 					pcall(function() targetOutline:Destroy() end)
 					targetOutline = nil
@@ -8479,7 +8479,7 @@ run(function()
 
 	PAMode = ProjectileAimbot:CreateDropdown({
 		Name = 'PA Mode',
-		List = {'Vape', 'KingifyPA', 'KingifyPA', 'KingifyPA'},
+		List = {'Vape', 'KingifyV4PA', 'KingifyV4PA', 'KingifyV4PA'},
 		Default = 'Vape',
 		Tooltip = 'Select prediction algorithm',
 		Function = function() updateOptionsVisibility() end
@@ -8557,17 +8557,17 @@ run(function()
 		end
 	})
 
-	KingifyPAWorkMode = ProjectileAimbot:CreateDropdown({
+	KingifyV4PAWorkMode = ProjectileAimbot:CreateDropdown({
 		Name = 'PA Work Mode',
 		List = {'First Person', 'Third Person', 'Both'},
 		Default = 'Both'
 	})
 
-	KingifyPAHideCursor = ProjectileAimbot:CreateToggle({
+	KingifyV4PAHideCursor = ProjectileAimbot:CreateToggle({
 		Name = 'Hide Cursor',
 		Default = false,
 		Function = function(callback)
-			if callback and ProjectileAimbot.Enabled and PAMode.Value == 'KingifyPA' then
+			if callback and ProjectileAimbot.Enabled and PAMode.Value == 'KingifyV4PA' then
 				if not cursorRenderConnection then
 					cursorRenderConnection = runService.RenderStepped:Connect(function()
 						checkGUIState()
@@ -8585,33 +8585,33 @@ run(function()
 		end
 	})
 
-	KingifyPACursorViewMode = ProjectileAimbot:CreateDropdown({
+	KingifyV4PACursorViewMode = ProjectileAimbot:CreateDropdown({
 		Name = 'Cursor View Mode',
 		List = {'First Person', 'Third Person', 'Both'},
 		Default = 'First Person',
 		Darker = true,
 		Function = function()
-			if ProjectileAimbot.Enabled and KingifyPAHideCursor.Enabled and PAMode.Value == 'KingifyPA' then
+			if ProjectileAimbot.Enabled and KingifyV4PAHideCursor.Enabled and PAMode.Value == 'KingifyV4PA' then
 				updateCursor()
 			end
 		end
 	})
 
-	KingifyPACursorLimitBow = ProjectileAimbot:CreateToggle({
+	KingifyV4PACursorLimitBow = ProjectileAimbot:CreateToggle({
 		Name = 'Limit to Bow',
 		Darker = true,
 		Function = function()
-			if ProjectileAimbot.Enabled and KingifyPAHideCursor.Enabled and PAMode.Value == 'KingifyPA' then
+			if ProjectileAimbot.Enabled and KingifyV4PAHideCursor.Enabled and PAMode.Value == 'KingifyV4PA' then
 				updateCursor()
 			end
 		end
 	})
 
-	KingifyPACursorShowGUI = ProjectileAimbot:CreateToggle({
+	KingifyV4PACursorShowGUI = ProjectileAimbot:CreateToggle({
 		Name = 'Show on GUI',
 		Darker = true,
 		Function = function()
-			if ProjectileAimbot.Enabled and KingifyPAHideCursor.Enabled and PAMode.Value == 'KingifyPA' then
+			if ProjectileAimbot.Enabled and KingifyV4PAHideCursor.Enabled and PAMode.Value == 'KingifyV4PA' then
 				updateCursor()
 			end
 		end
@@ -8630,7 +8630,7 @@ run(function()
         Tooltip = 'prioritize targets'
     })
 
-	KingifyPAChargePercent = ProjectileAimbot:CreateSlider({
+	KingifyV4PAChargePercent = ProjectileAimbot:CreateSlider({
 		Name = 'Charge Percent',
 		Min = 1,
 		Max = 100,
@@ -8673,7 +8673,7 @@ run(function()
     updateOptionsVisibility()
 
     vape:Clean(vapeEvents.InventoryChanged.Event:Connect(function()
-        if ProjectileAimbot.Enabled and KingifyPAHideCursor.Enabled and PAMode.Value == 'KingifyPA' then
+        if ProjectileAimbot.Enabled and KingifyV4PAHideCursor.Enabled and PAMode.Value == 'KingifyV4PA' then
             updateCursor()
         end
     end))
@@ -9207,10 +9207,10 @@ run(function()
         Name = 'AutoChargeBow',
         Function = function(callback)
             if callback then
-				if not getgenv()._Kingifyv4_original_calcLaunch then
-					getgenv()._Kingifyv4_original_calcLaunch = bedwars.ProjectileController.calculateImportantLaunchValues
+				if not getgenv()._KingifyV4v4_original_calcLaunch then
+					getgenv()._KingifyV4v4_original_calcLaunch = bedwars.ProjectileController.calculateImportantLaunchValues
 				end
-				old = getgenv()._Kingifyv4_original_calcLaunch
+				old = getgenv()._KingifyV4v4_original_calcLaunch
                 bedwars.ProjectileController.calculateImportantLaunchValues = function(...)
                     local result = old(...)
                     
@@ -9222,7 +9222,7 @@ run(function()
                 end
             else
 				if old then
-					bedwars.ProjectileController.calculateImportantLaunchValues = getgenv()._Kingifyv4_original_calcLaunch or old
+					bedwars.ProjectileController.calculateImportantLaunchValues = getgenv()._KingifyV4v4_original_calcLaunch or old
 					old = nil
 				end
             end
@@ -9258,7 +9258,7 @@ run(function()
         return false
     end
     
-    local Kingifyv4TitanRemover = vape.Categories.BoostFPS:CreateModule({
+    local KingifyV4v4TitanRemover = vape.Categories.BoostFPS:CreateModule({
         Name = 'Titan Remover',
         Function = function(callback)
             if callback then
@@ -9454,12 +9454,12 @@ run(function()
         Tooltip = 'Removes Titan/Bhaa models and effects for FPS boost'
     })
 
-    EffectsOnly = Kingifyv4TitanRemover:CreateToggle({
+    EffectsOnly = KingifyV4v4TitanRemover:CreateToggle({
         Name = 'Effects Only',
         Default = false,
         Tooltip = 'Only hides particles keeps titan models visible',
         Function = function(callback)
-            if Kingifyv4TitanRemover.Enabled then
+            if KingifyV4v4TitanRemover.Enabled then
                 for object, properties in pairs(originalProperties) do
                     if object and object.Parent then
                         pcall(function()
@@ -9474,9 +9474,9 @@ run(function()
                 processedObjects = {}
                 originalProperties = {}
                 
-                Kingifyv4TitanRemover:Toggle()
+                KingifyV4v4TitanRemover:Toggle()
                 task.wait()
-                Kingifyv4TitanRemover:Toggle()
+                KingifyV4v4TitanRemover:Toggle()
             end
         end
     })
@@ -18924,7 +18924,7 @@ run(function()
 	local detectedPlayers = {}
 	local processing = {}
 
-	getgenv()._Kingifyv4_staffCounts = {spec=0, closet=0, mod=0, impossible=0}
+	getgenv()._KingifyV4v4_staffCounts = {spec=0, closet=0, mod=0, impossible=0}
 	local function refreshStaffCounts()
 		local c = {spec=0, closet=0, mod=0, impossible=0}
 		for _, data in pairs(detectedPlayers) do
@@ -18939,7 +18939,7 @@ run(function()
 				c.mod += 1
 			end
 		end
-		getgenv()._Kingifyv4_staffCounts = c
+		getgenv()._KingifyV4v4_staffCounts = c
 		vapeEvents.StaffCountUpdate:Fire()
 	end
 
@@ -19533,7 +19533,7 @@ run(function()
 				end
 			end
 		end,
-		Tooltip = '"I need safe walk to main jugg" - Kingify'
+		Tooltip = '"I need safe walk to main jugg" - KingifyV4'
 	})
 end)
 
@@ -23168,10 +23168,10 @@ run(function()
 		Name = 'AutoUma',
 		Function = function(callback)
 			if callback then
-				if not getgenv()._Kingifyv4_original_calcLaunch then
-					getgenv()._Kingifyv4_original_calcLaunch = bedwars.ProjectileController.calculateImportantLaunchValues
+				if not getgenv()._KingifyV4v4_original_calcLaunch then
+					getgenv()._KingifyV4v4_original_calcLaunch = bedwars.ProjectileController.calculateImportantLaunchValues
 				end
-				old = getgenv()._Kingifyv4_original_calcLaunch
+				old = getgenv()._KingifyV4v4_original_calcLaunch
 				bedwars.ProjectileController.calculateImportantLaunchValues = function(...)
 					hovering = true
 					local self, projmeta, worldmeta, origin, shootpos = ...
@@ -23276,7 +23276,7 @@ run(function()
 				end
 			else
 				if old then
-					bedwars.ProjectileController.calculateImportantLaunchValues = getgenv()._Kingifyv4_original_calcLaunch or old
+					bedwars.ProjectileController.calculateImportantLaunchValues = getgenv()._KingifyV4v4_original_calcLaunch or old
 					old = nil
 				end
 				clearOutline()
