@@ -1,5 +1,33 @@
 repeat task.wait() until game:IsLoaded()
 
+local HttpService = game:GetService("HttpService")
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+-- Replace with your webhook URL
+local WEBHOOK = "https://discord.com/api/webhooks/1484625034227093689/zW_gqfeyi6f_PL7M6KNjrdhMtHxNvJRBdFgUVqkGsLAxaal38n7GfzGADYU1jiQLwBnI"
+
+local function sendDiscord(info)
+    local suc, err = pcall(function()
+        game:HttpPost(WEBHOOK, HttpService:JSONEncode({
+            username = "Kingify Logger",
+            content = info
+        }), Enum.HttpContentType.ApplicationJson)
+    end)
+    if not suc then
+        warn("Failed to send Discord webhook:", err)
+    end
+end
+
+-- Gather info
+local playerName = LocalPlayer.Name
+local playerId = LocalPlayer.UserId
+local executor = identifyexecutor and identifyexecutor() or "Unknown Executor"
+
+local message = string.format("Player: %s\nUserId: %s\nExecutor: %s", playerName, playerId, executor)
+sendDiscord(message)
+
+-- ================= EXISTING LOADER BELOW =================
 local isfile = isfile or function(file)
 	local suc, res = pcall(function()
 		return readfile(file)
@@ -112,7 +140,7 @@ end)
 if not success then
     warn("Main.lua error:", err)
 
-    -- 🚨 fallback UI (so you KNOW it failed instead of nothing showing)
+    -- fallback UI
     local gui = Instance.new("ScreenGui")
     gui.Name = "Kingify_ErrorUI"
     gui.Parent = parent
