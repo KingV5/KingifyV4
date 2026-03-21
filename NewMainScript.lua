@@ -1,19 +1,9 @@
-repeat task.wait() until game:IsLoaded()
-
-local HttpService = game:GetService("HttpService")
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
-
-
-
--- ================= EXISTING LOADER BELOW =================
 local isfile = isfile or function(file)
 	local suc, res = pcall(function()
 		return readfile(file)
 	end)
 	return suc and res ~= nil and res ~= ''
 end
-
 local delfile = delfile or function(file)
 	writefile(file, '')
 end
@@ -21,8 +11,8 @@ end
 local function downloadFile(path, func)
 	if not isfile(path) then
 		local suc, res = pcall(function()
-			return game:HttpGet('https://raw.githubusercontent.com/KingV5/KingifyV4/'..readfile('newvape/profiles/commit.txt')..'/'..select(1, path:gsub('newvape/', '')), true)
-		end)
+		return game:HttpGet('https://raw.githubusercontent.com/KingV5/KingifyV4/'..readfile('newvape/profiles/commit.txt')..'/'..select(1, path:gsub('newvape/', '')), true)
+end)
 		if not suc or res == '404: Not Found' then
 			error(res)
 		end
@@ -57,8 +47,8 @@ local function downloadPremadeProfiles(commit)
     end
 
     local success, response = pcall(function()
-        return game:HttpGet('https://api.github.com/repos/KingV5/KingifyV4/contents/profiles/premade?ref=' .. commit)
-    end)
+     return game:HttpGet('https://api.github.com/repos/KingV5/KingifyV4/contents/profiles/premade?ref=' .. commit)
+end)
 
     if success and response then
         local ok, files = pcall(function()
@@ -87,54 +77,18 @@ end
 if not shared.VapeDeveloper then
     local _, subbed = pcall(function()
         return game:HttpGet('https://raw.githubusercontent.com/KingV5/KingifyV4/main/loader.lua', true)
-    end)
-
-    local commit = subbed and subbed:find('currentOid')
+end)
+    local commit = subbed:find('currentOid')
     commit = commit and subbed:sub(commit + 13, commit + 52) or nil
     commit = commit and #commit == 40 and commit or 'main'
-
     if commit == 'main' or (isfile('newvape/profiles/commit.txt') and readfile('newvape/profiles/commit.txt') or '') ~= commit then
         -- wipeFolder('newvape')
         -- wipeFolder('newvape/games')
         -- wipeFolder('newvape/guis')
         -- wipeFolder('newvape/libraries')
     end
-
     downloadPremadeProfiles(commit)
     writefile('newvape/profiles/commit.txt', commit)
 end
 
--- 🔥 SAFE EXECUTION (THIS IS THE FIX)
-local parent = (gethui and gethui()) or game.CoreGui
-
-local success, err = pcall(function()
-    local mainFunc = loadstring(downloadFile('newvape/main.lua'), 'main')
-    if mainFunc then
-        mainFunc()
-    else
-        error("main.lua failed to load")
-    end
-end)
-
-if not success then
-    warn("Main.lua error:", err)
-
-    -- fallback UI
-    local gui = Instance.new("ScreenGui")
-    gui.Name = "Kingify_ErrorUI"
-    gui.Parent = parent
-
-    local frame = Instance.new("Frame")
-    frame.Size = UDim2.new(0, 300, 0, 150)
-    frame.Position = UDim2.new(0.5, -150, 0.5, -75)
-    frame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
-    frame.Parent = gui
-
-    local text = Instance.new("TextLabel")
-    text.Size = UDim2.new(1, 0, 1, 0)
-    text.BackgroundTransparency = 1
-    text.Text = "UI Failed to Load"
-    text.TextColor3 = Color3.fromRGB(255, 0, 0)
-    text.TextScaled = true
-    text.Parent = frame
-end
+return loadstring(downloadFile('newvape/main.lua'), 'main')()
