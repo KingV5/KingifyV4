@@ -1,9 +1,12 @@
 --This watermark is used to delete the file if its cached, remove it to make the file persist after vape updates.
+--This watermark is used to delete the file if its cached, remove it to make the file persist after vape updates.
+--This watermark is used to delete the file if its cached, remove it to make the file persist after vape updates.
+
 repeat task.wait() until game:IsLoaded()
 if shared.vape then shared.vape:Uninject() end
 
 if identifyexecutor then
-	if table.find({'Argon', 'Wave', 'Seliware', 'Volt'}, ({identifyexecutor()})[1]) then
+	if table.find({'Wave', 'Seliware', 'Volt'}, ({identifyexecutor()})[1]) then
 		getgenv().setthreadidentity = nil
 	end
 end
@@ -29,16 +32,20 @@ local loadstring = function(...)
 	end
 	return res
 end
+
 local queue_on_teleport = queue_on_teleport or function() end
+
 local isfile = isfile or function(file)
 	local suc, res = pcall(function()
 		return readfile(file)
 	end)
 	return suc and res ~= nil and res ~= ''
 end
+
 local cloneref = cloneref or function(obj)
 	return obj
 end
+
 local playersService = cloneref(game:GetService('Players'))
 
 local function downloadFile(path, func)
@@ -47,14 +54,14 @@ local function downloadFile(path, func)
         local success = false
         for attempt = 1, 3 do
             local suc, result = pcall(function()
-               return game:HttpGet('https://raw.githubusercontent.com/KingV5/KingifyV4/' .. readfile('newvape/profiles/commit.txt') .. '/' .. select(1, path:gsub('newvape/', '')), true)
-end)
+                return game:HttpGet('https://raw.githubusercontent.com/KingV5/KingifyV4/' .. readfile('newvape/profiles/commit.txt') .. '/' .. select(1, path:gsub('newvape/', '')), true)
+            end)
             if suc and result ~= '404: Not Found' then
                 res = result
                 success = true
                 break
             end
-            task.wait(1) 
+            task.wait(1)
         end
         if not success then
             error('Failed to download ' .. path .. ' after 3 attempts')
@@ -81,14 +88,10 @@ local function finishLoading()
 	vape:Clean(playersService.LocalPlayer.OnTeleport:Connect(function()
 		if (not teleportedServers) and (not shared.VapeIndependent) then
 			teleportedServers = true
-			local teleportScript = [[
-				shared.vapereload = true
-				if shared.VapeDeveloper then
-					loadstring(readfile('newvape/loader.lua'), 'loader')()
-				else
-					loadstring(game:HttpGet('https://raw.githubusercontent.com/KingV5/KingifyV4/'..readfile('newvape/profiles/commit.txt')..'/loader.lua', true), 'loader')()
-end
-			]]
+            local teleportScript = [[
+                shared.vapereload = true
+                loadstring(game:HttpGet('https://raw.githubusercontent.com/KingV5/KingifyV4/]]..readfile('newvape/profiles/commit.txt')..[[/loader.lua', true), 'loader')()
+            ]]
 			if shared.VapeDeveloper then
 				teleportScript = 'shared.VapeDeveloper = true\n'..teleportScript
 			end
@@ -104,12 +107,15 @@ end
         if not vape.Categories then return end
         if vape.Categories.Main.Options['GUI bind indicator'].Enabled then
             local name = shared.ValidatedUsername and ('wsg, ' .. shared.ValidatedUsername .. ' :D ') or 'welcome '
-            vape:CreateNotification('[Kingify] Finished Loading', name .. (vape.VapeButton and 'Press the button in the top right to open GUI' or 'Press ' .. table.concat(vape.Keybind, ' + '):upper() .. ' to open GUI'), 5)
+            vape:CreateNotification('[KingifyV4] Finished Loading', name .. (vape.VapeButton and 'Press the button in the top right to open GUI' or 'Press ' .. table.concat(vape.Keybind, ' + '):upper() .. ' to open GUI'), 5)
         end
     end
+end
+
 if not isfile('newvape/profiles/gui.txt') then
     writefile('newvape/profiles/gui.txt', 'new')
 end
+
 local gui = readfile('newvape/profiles/gui.txt')
 
 if not isfolder('newvape/assets/' .. gui) then
@@ -118,50 +124,59 @@ end
 
 local guiFunc, guiErr = loadstring(downloadFile('newvape/guis/' .. gui .. '.lua'), 'gui')
 if not guiFunc then
-    error('[Kingify] Failed to load GUI: ' .. tostring(guiErr))
+    error('[KingifyV4] Failed to load GUI: ' .. tostring(guiErr))
 end
+
 vape = guiFunc()
 if not vape then
-    error('[Kingify] GUI returned nil file may be corrupted try deleting newvape/guis/' .. gui .. '.lua and reinjecting.')
+    error('[KingifyV4] GUI returned nil file may be corrupted try deleting newvape/guis/' .. gui .. '.lua and reinjecting.')
 end
+
 shared.vape = vape
 task.wait(0.1)
 
 if getgenv().Closet then
     local LogService = cloneref(game:GetService('LogService'))
     local originals = {}
+
     local function hook(funcName)
         if typeof(getgenv()[funcName]) == 'function' then
             local original = hookfunction(getgenv()[funcName], function() end)
             originals[funcName] = original
         end
     end
+
     hook('print')
     hook('warn')
     hook('error')
     hook('info')
+
     pcall(function() LogService:ClearOutput() end)
+
     local conn = LogService.MessageOut:Connect(function()
         LogService:ClearOutput()
     end)
+
     getgenv()._vape_log_connection = conn
     getgenv()._vape_originals = originals
 end
 
 if not shared.VapeIndependent then
     loadstring(downloadFile('newvape/games/universal.lua'), 'universal')()
+
     if isfile('newvape/games/' .. game.PlaceId .. '.lua') then
-        loadstring(readfile('newvape/games/' .. game.PlaceId .. '.lua'), tostring(game.PlaceId))(...)
+        loadstring(downloadFile('newvape/games/' .. game.PlaceId .. '.lua'), tostring(game.PlaceId))(...)
     else
         if not shared.VapeDeveloper then
             local suc, res = pcall(function()
-              return game:HttpGet('https://raw.githubusercontent.com/KingV5/KingifyV4/' .. readfile('newvape/profiles/commit.txt') .. '/games/' .. game.PlaceId .. '.lua', true)
-end)
+                return game:HttpGet('https://raw.githubusercontent.com/KingV5/KingifyV4/' .. readfile('newvape/profiles/commit.txt') .. '/games/' .. game.PlaceId .. '.lua', true)
+            end)
             if suc and res ~= '404: Not Found' then
                 loadstring(downloadFile('newvape/games/' .. game.PlaceId .. '.lua'), tostring(game.PlaceId))(...)
             end
         end
     end
+
     finishLoading()
 else
     vape.Init = finishLoading
